@@ -69,18 +69,8 @@ type EnabledRepositoriesConfigInitParameters struct {
 
 	// List of repository IDs to enable for GitHub Actions.
 	// List of repository IDs to enable for GitHub Actions.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("repo_id",true)
 	// +listType=set
 	RepositoryIds []*int64 `json:"repositoryIds,omitempty" tf:"repository_ids,omitempty"`
-
-	// References to Repository in repo to populate repositoryIds.
-	// +kubebuilder:validation:Optional
-	RepositoryIdsRefs []v1.NamespacedReference `json:"repositoryIdsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of Repository in repo to populate repositoryIds.
-	// +kubebuilder:validation:Optional
-	RepositoryIdsSelector *v1.NamespacedSelector `json:"repositoryIdsSelector,omitempty" tf:"-"`
 }
 
 type EnabledRepositoriesConfigObservation struct {
@@ -95,19 +85,9 @@ type EnabledRepositoriesConfigParameters struct {
 
 	// List of repository IDs to enable for GitHub Actions.
 	// List of repository IDs to enable for GitHub Actions.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("repo_id",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
-	RepositoryIds []*int64 `json:"repositoryIds,omitempty" tf:"repository_ids,omitempty"`
-
-	// References to Repository in repo to populate repositoryIds.
-	// +kubebuilder:validation:Optional
-	RepositoryIdsRefs []v1.NamespacedReference `json:"repositoryIdsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of Repository in repo to populate repositoryIds.
-	// +kubebuilder:validation:Optional
-	RepositoryIdsSelector *v1.NamespacedSelector `json:"repositoryIdsSelector,omitempty" tf:"-"`
+	RepositoryIds []*int64 `json:"repositoryIds" tf:"repository_ids,omitempty"`
 }
 
 type OrganizationPermissionsInitParameters struct {

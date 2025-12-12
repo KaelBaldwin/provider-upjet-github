@@ -9,11 +9,9 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    nameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    selectedRepositoryIdsRefs:
-    - name: example
+    name: example
+    selectedRepositoryIds:
+    - ${github_repository.example.repo_id}
     visibility: selected
 
 ---

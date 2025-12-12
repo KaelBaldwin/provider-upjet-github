@@ -22,17 +22,7 @@ type RunnerGroupInitParameters struct {
 
 	// Name of the runner group
 	// Name of the runner group.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a Repository in repo to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a Repository in repo to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
 	// If true, the runner group will be restricted to running only the workflows specified in the selected_workflows array. Defaults to false.
 	// If 'true', the runner group will be restricted to running only the workflows specified in the 'selected_workflows' array. Defaults to 'false'.
@@ -40,18 +30,8 @@ type RunnerGroupInitParameters struct {
 
 	// IDs of the repositories which should be added to the runner group
 	// List of repository IDs that can access the runner group.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("repo_id",true)
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
-
-	// References to Repository in repo to populate selectedRepositoryIds.
-	// +kubebuilder:validation:Optional
-	SelectedRepositoryIdsRefs []v1.NamespacedReference `json:"selectedRepositoryIdsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of Repository in repo to populate selectedRepositoryIds.
-	// +kubebuilder:validation:Optional
-	SelectedRepositoryIdsSelector *v1.NamespacedSelector `json:"selectedRepositoryIdsSelector,omitempty" tf:"-"`
 
 	// List of workflows the runner group should be allowed to run. This setting will be ignored unless restricted_to_workflows is set to true.
 	// List of workflows the runner group should be allowed to run. This setting will be ignored unless restricted_to_workflows is set to 'true'.
@@ -121,18 +101,8 @@ type RunnerGroupParameters struct {
 
 	// Name of the runner group
 	// Name of the runner group.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a Repository in repo to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a Repository in repo to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
 	// If true, the runner group will be restricted to running only the workflows specified in the selected_workflows array. Defaults to false.
 	// If 'true', the runner group will be restricted to running only the workflows specified in the 'selected_workflows' array. Defaults to 'false'.
@@ -141,19 +111,9 @@ type RunnerGroupParameters struct {
 
 	// IDs of the repositories which should be added to the runner group
 	// List of repository IDs that can access the runner group.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("repo_id",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
-
-	// References to Repository in repo to populate selectedRepositoryIds.
-	// +kubebuilder:validation:Optional
-	SelectedRepositoryIdsRefs []v1.NamespacedReference `json:"selectedRepositoryIdsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of Repository in repo to populate selectedRepositoryIds.
-	// +kubebuilder:validation:Optional
-	SelectedRepositoryIdsSelector *v1.NamespacedSelector `json:"selectedRepositoryIdsSelector,omitempty" tf:"-"`
 
 	// List of workflows the runner group should be allowed to run. This setting will be ignored unless restricted_to_workflows is set to true.
 	// List of workflows the runner group should be allowed to run. This setting will be ignored unless restricted_to_workflows is set to 'true'.
@@ -202,6 +162,7 @@ type RunnerGroupStatus struct {
 type RunnerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.visibility) || (has(self.initProvider) && has(self.initProvider.visibility))",message="spec.forProvider.visibility is a required parameter"
 	Spec   RunnerGroupSpec   `json:"spec"`
 	Status RunnerGroupStatus `json:"status,omitempty"`
