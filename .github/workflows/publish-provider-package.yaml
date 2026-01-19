@@ -9,15 +9,15 @@ on:
         required: false
       go-version:
         description: 'Go version to use if building needs to be done'
-        default: '1.23'
+        default: '1.24'
         required: false
 
 jobs:
   publish-provider-package:
-    permissions: 
+    permissions:
       contents: read
       packages: write
-    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider-non-family.yml@main
+    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider-non-family.yml@43ca8f166d0e9abd792feefb22b286146d7534a7
     with:
       repository: provider-upjet-github
       version: ${{ github.event.inputs.version }}
